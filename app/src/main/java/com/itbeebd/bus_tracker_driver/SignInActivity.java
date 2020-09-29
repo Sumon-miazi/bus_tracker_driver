@@ -1,12 +1,14 @@
 package com.itbeebd.bus_tracker_driver;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.itbeebd.bus_tracker_driver.api.ApiCalls;
 import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 
 public class SignInActivity extends AppCompatActivity {
@@ -41,6 +43,15 @@ public class SignInActivity extends AppCompatActivity {
             return;
         }
 
+        new ApiCalls().signIn(this, emailTxt.trim().toLowerCase(), passwordTxt.trim(), (status, message) -> {
 
+            if (status) {
+                CustomSharedPref.getInstance(this).setEmail(emailTxt);
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

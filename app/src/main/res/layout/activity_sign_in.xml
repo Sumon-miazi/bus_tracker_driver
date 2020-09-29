@@ -10,7 +10,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_margin="20dp"
         app:cardCornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
         android:text="Log in"
         android:onClick="loginDriver"
         android:textColor="@color/white"
-        android:background="@drawable/btn_bg"
+        android:background="@drawable/btn_bg_round"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/cardView"

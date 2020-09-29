@@ -5,18 +5,7 @@ import android.content.Context;
 import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 import com.itbeebd.bus_tracker_driver.utils.GetResponse;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TimeZone;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,7 +23,7 @@ public class ApiCalls {
 
     private RetrofitService service = retrofit.create(RetrofitService.class);
 
-    public void signIn(final Context context, String email , String password, final GetResponse getResponse){
+    public void signIn(final Context context, String email, String password, GetResponse getResponse) {
         System.out.println("signIn>>>>>>>>>>> called ");
         final RetrofitRequestBody retrofitRequestBody = new RetrofitRequestBody();
         Call<ResponseBody> responseBodyCall = service.getSignIn(retrofitRequestBody.signInRequirements(email, password));
@@ -42,7 +31,7 @@ public class ApiCalls {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 JSONObject jsonObject = null;
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         jsonObject = new JSONObject(response.body().string());
                         System.out.println("signIn>>>>>>>>>>> " + jsonObject.toString());
@@ -54,15 +43,16 @@ public class ApiCalls {
                             CustomSharedPref.getInstance(context).setBusId(userData.getInt("bus_id"));
 
                             getResponse.data(true, jsonObject.optString("message"));
-                        }
-                        else getResponse.data(false,jsonObject.optString("message"));
+                        } else getResponse.data(false, jsonObject.optString("message"));
 
                     } catch (Exception ignore) {
-                       // System.out.println("addUserEnrollment>>>>>>>>>>> catch " + ignore.getMessage());
+                        System.out.println("signIn>>>>>>>>>>> catch " + ignore.getMessage());
                         getResponse.data(false, ignore.getMessage());
                     }
+                } else {
+                    System.out.println("signIn>>>>>>>>>>> response failed");
+                    getResponse.data(false, response.message());
                 }
-                else getResponse.data(false, response.message());
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
