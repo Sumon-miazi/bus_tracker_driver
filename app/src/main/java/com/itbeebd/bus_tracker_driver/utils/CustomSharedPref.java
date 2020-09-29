@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver.service;
+package com.itbeebd.bus_tracker_driver.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,4 +42,33 @@ public class CustomSharedPref {
         return sharedPreferences.getBoolean("GpsHasDisabled", false);
     }
 
+    public void setEmail(String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("savedEmail", value);
+        editor.apply();
+    }
+
+    public String getSavedEmail() {
+        return sharedPreferences.getString("savedEmail", "");
+    }
+
+    public void setUserName(String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("driverName", value);
+        editor.apply();
+    }
+
+    public String getUserName() {
+        return sharedPreferences.getString("driverName", "");
+    }
+
+    public void setBusId(int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("BusId", value);
+        editor.apply();
+    }
+
+    public int getBusId() {
+        return sharedPreferences.getInt("BusId", 0);
+    }
 }

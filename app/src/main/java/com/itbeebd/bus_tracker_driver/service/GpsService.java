@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
+
 public class GpsService extends Service {
     private static final String TAG = "GpsService";
     private static final int LOCATION_INTERVAL = 30000; // this is in milisec. after every this interval the user location will send to server
