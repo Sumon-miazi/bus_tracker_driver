@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">bus_tracker_driver</string>
+    <string name="app_name">Bus Tracker Driver</string>
     <string name="sharedPrefName">bus_tracker_driver</string>
 </resources>

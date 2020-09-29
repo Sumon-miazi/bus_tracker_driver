@@ -63,7 +63,7 @@ public class GpsService extends Service {
                     CustomSharedPref.getInstance(getApplicationContext()).setGpsHasDisabled(false);
                     CustomSharedPref.getInstance(getApplicationContext()).setInternetConnectionHasDisabled(false);
                 });
-                
+
          */
     }
 
