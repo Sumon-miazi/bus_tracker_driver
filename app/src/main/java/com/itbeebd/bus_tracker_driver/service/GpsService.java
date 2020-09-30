@@ -7,21 +7,26 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.itbeebd.bus_tracker_driver.api.ApiCalls;
 import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 
 public class GpsService extends Service {
     private static final String TAG = "GpsService";
-    private static final int LOCATION_INTERVAL = 30000; // this is in milisec. after every this interval the user location will send to server
+    private static final int LOCATION_INTERVAL = 10000; // this is in milisec. after every this interval the user location will send to server
     private static final float LOCATION_DISTANCE = 0.0f; // this is in meter.
+    private LocationManager locationManager = null;
+    private CheckNetworkState checkNetworkState;
+    private HaversineDistance haversineDistance;
+
+
     LocationListener[] locationListeners = new LocationListener[]{
             new LocationListener(LocationManager.GPS_PROVIDER),
             new LocationListener(LocationManager.NETWORK_PROVIDER)
     };
-    private LocationManager locationManager = null;
-    private CheckNetworkState checkNetworkState;
-    private HaversineDistance haversineDistance;
 
     private void sendTravelingUserLocationToServer(Location mLastLocation) {
         if (mLastLocation == null) {
@@ -40,53 +45,51 @@ public class GpsService extends Service {
             //Sending GPS to server was Paused
             Toast.makeText(getApplicationContext(), "wasInternetConnectionDisabled/wasGpsDisabled true", Toast.LENGTH_SHORT).show();
 
-            checkIfUserIsWithTheTrainIfNotStopService(mLastLocation);
+            checkIfUserIsWithTheBusIfNotStopService(mLastLocation);
         } else {
             Toast.makeText(getApplicationContext(), "Gps is going to the server", Toast.LENGTH_SHORT).show();
             sendGPSToServer(mLastLocation);
         }
     }
 
-    public void checkIfUserIsWithTheTrainIfNotStopService(Location mLastLocation) {
-        /*
-        new ApiCalls().getTrainCurrentPositionByTrainId(false,
-                getApplicationContext(),
-                new Train(CustomSharedPref.getInstance(getApplicationContext()).getTravelingTrainId()),(latitude, longitude) -> {
+    public void checkIfUserIsWithTheBusIfNotStopService(Location mLastLocation) {
+
+        new ApiCalls().getBusCurrentPositionByBusId(
+                CustomSharedPref.getInstance(getApplicationContext()).getBusId(),
+                (latitude, longitude) -> {
                     haversineDistance = new HaversineDistance(
                             mLastLocation.getLatitude(),
                             mLastLocation.getLongitude());
 
                     double driverAndBusDistance = haversineDistance.calculate(latitude, longitude);
 
-                    if(driverAndBusDistance > 1){
-                        Toast.makeText(getApplicationContext(), "user is too far from train current location.", Toast.LENGTH_SHORT).show();
+                    if (driverAndBusDistance > 1) {
+                        Toast.makeText(getApplicationContext(), "user is too far from Bus current location.", Toast.LENGTH_SHORT).show();
                         this.stopSelf();
                     }
                     CustomSharedPref.getInstance(getApplicationContext()).setGpsHasDisabled(false);
                     CustomSharedPref.getInstance(getApplicationContext()).setInternetConnectionHasDisabled(false);
                 });
 
-         */
+
     }
 
     public void sendGPSToServer(Location mLastLocation) {
-        /*
-        new ApiCalls().sendUserFeedbackAboutTrainToServer(getApplicationContext(),new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), response ->{
-            //Log.i(TAG,response + " server response");
-            if(response){
-                Toast.makeText(getApplicationContext(), "GPS service is destroy called from server", Toast.LENGTH_SHORT).show();
-                this.stopSelf();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "train location is updated : " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
-         */
+        new ApiCalls().sendUserFeedbackAboutBusToServer(CustomSharedPref.getInstance(getApplicationContext()).getBusId()
+                , new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
+                flag -> {
+
+                    if (flag) {
+                        Toast.makeText(getApplicationContext(), "Bus location is updated : " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     @Override
     public IBinder onBind(Intent arg0) {
+        Toast.makeText(getApplicationContext(), "onBind called", Toast.LENGTH_SHORT).show();
         checkNetworkState = new CheckNetworkState(getApplicationContext());
         return null;
     }
@@ -94,12 +97,14 @@ public class GpsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        Toast.makeText(getApplicationContext(), "onStartCommand called", Toast.LENGTH_SHORT).show();
         checkNetworkState = new CheckNetworkState(getApplicationContext());
         return START_STICKY;
     }
 
     @Override
     public void onCreate() {
+        Toast.makeText(getApplicationContext(), "onCreate called", Toast.LENGTH_SHORT).show();
         initializeLocationManager();
 
         try {
@@ -107,27 +112,30 @@ public class GpsService extends Service {
                     LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
                     locationListeners[1]);
         } catch (java.lang.SecurityException ex) {
-            //   Log.i(TAG, "fail to request location update, ignore", ex);
+            Log.i(TAG, "fail to request location update, ignore", ex);
         } catch (IllegalArgumentException ex) {
-            //   Log.d(TAG, "network provider does not exist, " + ex.getMessage());
+            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
         }
         try {
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
                     locationListeners[0]);
         } catch (java.lang.SecurityException ex) {
-            //   Log.i(TAG, "fail to request location update, ignore", ex);
+            Log.i(TAG, "fail to request location update, ignore", ex);
         } catch (IllegalArgumentException ex) {
-            //   Log.d(TAG, "gps provider does not exist " + ex.getMessage());
+            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
         }
     }
 
     @Override
     public void onDestroy() {
-        // Log.i(TAG, "onDestroy");
+        Log.i(TAG, "onDestroy");
         super.onDestroy();
 
         Toast.makeText(getApplicationContext(), "Gps service destroy", Toast.LENGTH_SHORT).show();
+
+        CustomSharedPref.getInstance(getApplicationContext()).setGpsHasDisabled(false);
+        CustomSharedPref.getInstance(getApplicationContext()).setInternetConnectionHasDisabled(false);
 
         if (locationManager != null) {
             for (int i = 0; i < locationListeners.length; i++) {

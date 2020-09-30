@@ -59,7 +59,7 @@ public class CustomSharedPref {
     }
 
     public String getUserName() {
-        return sharedPreferences.getString("driverName", "");
+        return sharedPreferences.getString("driverName", "Driver name");
     }
 
     public void setBusId(int value) {
