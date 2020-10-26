@@ -15,6 +15,7 @@ import com.itbeebd.bus_tracker_driver.api.ApiCalls;
 import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 
 public class GpsService extends Service {
+
     private static final String TAG = "GpsService";
     private static final int LOCATION_INTERVAL = 10000; // this is in milisec. after every this interval the user location will send to server
     private static final float LOCATION_DISTANCE = 0.0f; // this is in meter.
@@ -65,7 +66,7 @@ public class GpsService extends Service {
 
                     if (driverAndBusDistance > 1) {
                         Toast.makeText(getApplicationContext(), "user is too far from Bus current location.", Toast.LENGTH_SHORT).show();
-                        this.stopSelf();
+                        //    this.stopSelf();
                     }
                     CustomSharedPref.getInstance(getApplicationContext()).setGpsHasDisabled(false);
                     CustomSharedPref.getInstance(getApplicationContext()).setInternetConnectionHasDisabled(false);
@@ -79,7 +80,6 @@ public class GpsService extends Service {
         new ApiCalls().sendUserFeedbackAboutBusToServer(CustomSharedPref.getInstance(getApplicationContext()).getBusId()
                 , new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
                 flag -> {
-
                     if (flag) {
                         Toast.makeText(getApplicationContext(), "Bus location is updated : " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                     }

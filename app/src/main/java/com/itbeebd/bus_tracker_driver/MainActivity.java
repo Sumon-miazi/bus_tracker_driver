@@ -16,14 +16,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.itbeebd.bus_tracker_driver.service.GpsService;
 import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private Button startBtn;
     private Button stopBtn;
     private long time;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         startBtn = findViewById(R.id.startBusBtnId);
         stopBtn = findViewById(R.id.stopBusBtnId);
+
+        db = FirebaseFirestore.getInstance();
 
         TextView driverName = findViewById(R.id.driverNameId);
         driverName.setText(CustomSharedPref.getInstance(this).getUserName());
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public void startTheGpsService(View view) {
         startService(new Intent(this, GpsService.class));
         showStartBtn(false);
+        setBusStartStatement();
     }
 
     public void stopTheGpsService(View view) {
@@ -156,5 +165,26 @@ public class MainActivity extends AppCompatActivity {
             startBtn.setVisibility(View.GONE);
             stopBtn.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setBusStartStatement() {
+        //  android.text.format.DateFormat.format("EEEE", date);
+
+        Calendar calendar = Calendar.getInstance();
+        String[] days = new String[]{"SATURDAY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"};
+        String day = days[calendar.get(Calendar.DAY_OF_WEEK)];
+
+        Map<String, Object> record = new HashMap<>();
+        record.put("title", CustomSharedPref.getInstance(this).getBusName() + " has started");
+        record.put("body", "Dear student, your bus is now on the way.");
+        record.put("topic", CustomSharedPref.getInstance(this).getBusName().replaceAll(" ", "_").toLowerCase() + "_" + day.toLowerCase());
+
+        System.out.println(">>>>>>>>>>. " + record.toString());
+
+// Add a new document with a generated ID
+        db.collection("notification")
+                .add(record)
+                .addOnCompleteListener(runnable -> {
+                });
     }
 }

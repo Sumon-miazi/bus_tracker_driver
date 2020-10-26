@@ -53,6 +53,7 @@ public class ApiCalls {
 
                             CustomSharedPref.getInstance(context).setUserName(userData.getString("name"));
                             CustomSharedPref.getInstance(context).setBusId(userData.getInt("bus_id"));
+                            CustomSharedPref.getInstance(context).setBusName(userData.getString("bus_name"));
 
                             getResponse.data(true, jsonObject.optString("message"));
                         } else getResponse.data(false, jsonObject.optString("message"));

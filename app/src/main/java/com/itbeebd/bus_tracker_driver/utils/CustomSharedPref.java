@@ -71,4 +71,14 @@ public class CustomSharedPref {
     public int getBusId() {
         return sharedPreferences.getInt("BusId", 0);
     }
+
+    public String getBusName() {
+        return sharedPreferences.getString("BusName", "");
+    }
+
+    public void setBusName(String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("BusName", value);
+        editor.apply();
+    }
 }
