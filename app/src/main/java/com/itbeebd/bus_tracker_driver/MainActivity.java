@@ -1,11 +1,15 @@
 package com.itbeebd.bus_tracker_driver;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,14 +21,27 @@ import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 
 public class MainActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private Button startBtn;
+    private Button stopBtn;
+    private long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startBtn = findViewById(R.id.startBusBtnId);
+        stopBtn = findViewById(R.id.stopBusBtnId);
+
         TextView driverName = findViewById(R.id.driverNameId);
         driverName.setText(CustomSharedPref.getInstance(this).getUserName());
+
+        if (isMyServiceRunning(GpsService.class)) {
+            showStartBtn(false);
+        } else {
+            showStartBtn(true);
+        }
+
     }
 
     @Override
@@ -35,10 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void startTheGpsService(View view) {
         startService(new Intent(this, GpsService.class));
+        showStartBtn(false);
     }
 
     public void stopTheGpsService(View view) {
         stopService(new Intent(this, GpsService.class));
+        showStartBtn(true);
     }
 
 
@@ -105,6 +124,37 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (time + 2000 > System.currentTimeMillis()) {
+            finish();
+        } else {
+            time = System.currentTimeMillis();
+            Toast.makeText(this, "press again to exit", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void showStartBtn(boolean flag) {
+        if (flag) {
+            startBtn.setVisibility(View.VISIBLE);
+            stopBtn.setVisibility(View.GONE);
+        } else {
+            startBtn.setVisibility(View.GONE);
+            stopBtn.setVisibility(View.VISIBLE);
         }
     }
 }

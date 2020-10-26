@@ -44,7 +44,6 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         new ApiCalls().signIn(this, emailTxt.trim().toLowerCase(), passwordTxt.trim(), (status, message) -> {
-
             if (status) {
                 CustomSharedPref.getInstance(this).setEmail(emailTxt);
                 startActivity(new Intent(this, MainActivity.class));
