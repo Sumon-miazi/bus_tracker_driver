@@ -1,7 +1,6 @@
 package com.itbeebd.bus_tracker_driver;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -26,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
         TextView driverName = findViewById(R.id.driverNameId);
         driverName.setText(CustomSharedPref.getInstance(this).getUserName());
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         checkLocationPermission();
     }
 
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle("location_permission")
                         .setMessage("location_permission")
-                        .setPositiveButton("ok", (DialogInterface.OnClickListener) (dialogInterface, i) -> {
+                        .setPositiveButton("ok", (dialogInterface, i) -> {
                             //Prompt the user once explanation has been shown
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
