@@ -44,11 +44,7 @@ public class MainActivity extends AppCompatActivity {
         TextView driverName = findViewById(R.id.driverNameId);
         driverName.setText(CustomSharedPref.getInstance(this).getUserName());
 
-        if (isMyServiceRunning(GpsService.class)) {
-            showStartBtn(false);
-        } else {
-            showStartBtn(true);
-        }
+        showStartBtn(!isMyServiceRunning(GpsService.class));
 
     }
 
@@ -59,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startTheGpsService(View view) {
-        startService(new Intent(this, GpsService.class));
+        // startService(new Intent(this, GpsService.class));
         showStartBtn(false);
         setBusStartStatement();
     }
@@ -171,8 +167,8 @@ public class MainActivity extends AppCompatActivity {
         //  android.text.format.DateFormat.format("EEEE", date);
 
         Calendar calendar = Calendar.getInstance();
-        String[] days = new String[]{"SATURDAY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"};
-        String day = days[calendar.get(Calendar.DAY_OF_WEEK)];
+        String[] days = new String[]{"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+        String day = days[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 
         Map<String, Object> record = new HashMap<>();
         record.put("title", CustomSharedPref.getInstance(this).getBusName() + " has started");

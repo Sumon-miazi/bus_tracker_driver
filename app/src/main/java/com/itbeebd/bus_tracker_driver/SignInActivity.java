@@ -31,14 +31,15 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void loginDriver(View view) {
+        startActivity(new Intent(this, MainActivity.class));
+
         String emailTxt = email.getText().toString();
         String passwordTxt = password.getText().toString();
 
-        if(emailTxt.isEmpty()){
+        if (emailTxt.isEmpty()) {
             Toast.makeText(this, "Enter email first", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else if(passwordTxt.isEmpty()){
+        } else if (passwordTxt.isEmpty()) {
             Toast.makeText(this, "Enter password first", Toast.LENGTH_SHORT).show();
             return;
         }
