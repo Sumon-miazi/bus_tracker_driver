@@ -31,8 +31,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void loginDriver(View view) {
-        startActivity(new Intent(this, MainActivity.class));
-
         String emailTxt = email.getText().toString();
         String passwordTxt = password.getText().toString();
 

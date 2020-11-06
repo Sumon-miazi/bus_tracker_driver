@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startTheGpsService(View view) {
-        // startService(new Intent(this, GpsService.class));
+        startService(new Intent(this, GpsService.class));
         showStartBtn(false);
         setBusStartStatement();
     }
