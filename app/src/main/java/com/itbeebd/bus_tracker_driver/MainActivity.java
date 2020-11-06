@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
-                        .setTitle("location_permission")
-                        .setMessage("location_permission")
+                        .setTitle("Location permission")
+                        .setMessage("This app required gps location otherwise this app will not work properly. Enable location to use this app.")
                         .setPositiveButton("ok", (dialogInterface, i) -> {
                             //Prompt the user once explanation has been shown
                             ActivityCompat.requestPermissions(MainActivity.this,
