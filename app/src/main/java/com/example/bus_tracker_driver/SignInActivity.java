@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver;
+package com.example.bus_tracker_driver;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.itbeebd.bus_tracker_driver.api.ApiCalls;
-import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
+import com.example.bus_tracker_driver.api.ApiCalls;
+import com.example.bus_tracker_driver.utils.CustomSharedPref;
 
 public class SignInActivity extends AppCompatActivity {
 
     private TextView email;
     private TextView password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

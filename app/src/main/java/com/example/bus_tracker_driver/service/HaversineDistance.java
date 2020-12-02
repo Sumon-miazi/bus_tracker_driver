@@ -1,10 +1,10 @@
-package com.itbeebd.bus_tracker_driver.service;
+package com.example.bus_tracker_driver.service;
 
 public class HaversineDistance {
 
-    private String TAG = "HaversineDistance";
-    private Double latitude;
-    private Double longitude;
+    private final String TAG = "HaversineDistance";
+    private final Double latitude;
+    private final Double longitude;
 
     public HaversineDistance(Double latitude, Double longitude) {
         this.latitude = latitude;

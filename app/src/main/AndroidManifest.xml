@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.itbeebd.bus_tracker_driver">
+    package="com.example.bus_tracker_driver">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".SplashActivity"
+            android:name="com.example.bus_tracker_driver.SplashActivity"
             android:screenOrientation="userPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,16 +28,16 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.bus_tracker_driver.MainActivity"
             android:screenOrientation="userPortrait" />
 
         <service
-            android:name=".service.GpsService"
+            android:name="com.example.bus_tracker_driver.service.GpsService"
             android:enabled="true"
             android:exported="false" />
 
         <activity
-            android:name=".SignInActivity"
+            android:name="com.example.bus_tracker_driver.SignInActivity"
             android:screenOrientation="userPortrait" />
     </application>
 

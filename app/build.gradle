@@ -6,7 +6,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.itbeebd.bus_tracker_driver"
+        applicationId "com.example.bus_tracker_driver"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

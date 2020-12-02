@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver;
+package com.example.bus_tracker_driver;
 
 import android.Manifest;
 import android.app.ActivityManager;
@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.bus_tracker_driver.service.GpsService;
+import com.example.bus_tracker_driver.utils.CustomSharedPref;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.itbeebd.bus_tracker_driver.service.GpsService;
-import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 
 import java.util.Calendar;
 import java.util.HashMap;

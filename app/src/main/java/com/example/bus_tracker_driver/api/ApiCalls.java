@@ -1,13 +1,13 @@
-package com.itbeebd.bus_tracker_driver.api;
+package com.example.bus_tracker_driver.api;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.example.bus_tracker_driver.utils.BooleanResponse;
+import com.example.bus_tracker_driver.utils.CustomLocation;
+import com.example.bus_tracker_driver.utils.CustomSharedPref;
+import com.example.bus_tracker_driver.utils.GetResponse;
 import com.google.android.gms.maps.model.LatLng;
-import com.itbeebd.bus_tracker_driver.utils.BooleanResponse;
-import com.itbeebd.bus_tracker_driver.utils.CustomLocation;
-import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
-import com.itbeebd.bus_tracker_driver.utils.GetResponse;
 
 import org.json.JSONObject;
 
@@ -20,12 +20,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiCalls {
 
-    private Retrofit retrofit = new Retrofit.Builder()
+    private final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiUrls.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    private RetrofitService service = retrofit.create(RetrofitService.class);
+    private final RetrofitService service = retrofit.create(RetrofitService.class);
 
     public void signIn(final Context context, String email, String password, GetResponse getResponse) {
 
@@ -121,11 +121,7 @@ public class ApiCalls {
                             // Toast.makeText(context, "gps service running", Toast.LENGTH_SHORT).show();
                             String jsonresponse = response.body().string();
                             JSONObject jsonObject = new JSONObject(jsonresponse);
-                            if (jsonObject.optString("status").equals("true")) {
-                                booleanResponse.getBoolean(true);
-                            } else {
-                                booleanResponse.getBoolean(false);
-                            }
+                            booleanResponse.getBoolean(jsonObject.optString("status").equals("true"));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

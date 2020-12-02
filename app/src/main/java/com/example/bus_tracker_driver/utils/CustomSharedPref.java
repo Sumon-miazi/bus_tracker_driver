@@ -1,14 +1,14 @@
-package com.itbeebd.bus_tracker_driver.utils;
+package com.example.bus_tracker_driver.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.itbeebd.bus_tracker_driver.R;
+import com.example.bus_tracker_driver.R;
 
 public class CustomSharedPref {
     private static CustomSharedPref customSharedPref;
-    private Context context;
-    private SharedPreferences sharedPreferences;
+    private final Context context;
+    private final SharedPreferences sharedPreferences;
 
     private CustomSharedPref(Context context) {
         this.context = context;

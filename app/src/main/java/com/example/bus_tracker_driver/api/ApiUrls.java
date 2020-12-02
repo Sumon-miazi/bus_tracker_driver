@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver.api;
+package com.example.bus_tracker_driver.api;
 
 public class ApiUrls {
 

@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver.service;
+package com.example.bus_tracker_driver.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.bus_tracker_driver.api.ApiCalls;
+import com.example.bus_tracker_driver.utils.CustomSharedPref;
 import com.google.android.gms.maps.model.LatLng;
-import com.itbeebd.bus_tracker_driver.api.ApiCalls;
-import com.itbeebd.bus_tracker_driver.utils.CustomSharedPref;
 
 public class GpsService extends Service {
 

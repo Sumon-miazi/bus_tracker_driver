@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver.api;
+package com.example.bus_tracker_driver.api;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RetrofitRequestBody {
-    private String api_key = "7EgGmA";
+    private final String api_key = "7EgGmA";
 
     public RetrofitRequestBody() {
 

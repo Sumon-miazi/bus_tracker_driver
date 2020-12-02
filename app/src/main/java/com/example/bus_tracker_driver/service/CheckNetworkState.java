@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver.service;
+package com.example.bus_tracker_driver.service;
 
 
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 
 public class CheckNetworkState {
 
-    private Context context;
+    private final Context context;
 
     public CheckNetworkState(Context context) {
         this.context = context;

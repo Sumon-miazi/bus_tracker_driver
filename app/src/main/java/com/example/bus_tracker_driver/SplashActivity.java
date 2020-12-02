@@ -1,4 +1,4 @@
-package com.itbeebd.bus_tracker_driver;
+package com.example.bus_tracker_driver;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.itbeebd.bus_tracker_driver.service.CheckNetworkState;
+import com.example.bus_tracker_driver.service.CheckNetworkState;
 
 public class SplashActivity extends AppCompatActivity {
 
